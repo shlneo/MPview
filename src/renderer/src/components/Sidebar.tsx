@@ -22,11 +22,7 @@ export default function Sidebar(): React.JSX.Element {
   return (
     <aside className="flex h-full w-60 shrink-0 flex-col border-r border-panel-border bg-panel/60">
       <div className="flex items-center gap-2 px-5 py-5">
-        <img
-          src="https://api.dicebear.com/9.x/shapes/svg?seed=mpview&backgroundType=gradientLinear"
-          alt=""
-          className="h-8 w-8 rounded-md"
-        />
+        <img src="/img/logo.png" alt="" className="h-8 w-8 rounded-md object-cover" />
         <span className="text-lg font-bold tracking-tight">
           MP<span className="text-accent">View</span>
         </span>

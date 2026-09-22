@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>MPView — Match HUD (demo)</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- В реальном использовании фон прозрачный, картинка игры видна из-под HUD.
+         Здесь — просто плейсхолдер, чтобы было видно, куда лягут элементы. -->
+    <div class="game-view-placeholder">GAME VIEW</div>
+
+    <div class="hud" id="hud"></div>
+
+    <!-- Камера игрока, за которым сейчас наблюдают. Лежит отдельно от #hud,
+         потому что обновляется через WebSocket независимо от рендера счёта/составов. -->
+    <div class="camera-box" id="cameraBox">
+      <!-- Плейсхолдер на случай, если камера ещё не выбрана или с её стороны
+           (VDO.Ninja/OBS.Ninja) пока не пришло видео. -->
+      <div class="camera-placeholder" id="cameraPlaceholder">
+        <svg viewBox="0 0 24 24" width="56" height="56" fill="currentColor">
+          <path
+            d="M12 12c2.76 0 5-2.46 5-5.5S14.76 1 12 1 7 3.46 7 6.5 9.24 12 12 12Zm0 2.5c-3.87 0-11 2-11 6V23h22v-2.5c0-4-7.13-6-11-6Z"
+          />
+        </svg>
+      </div>
+      <div class="camera-inner" id="cameraInner">
+        <iframe id="cameraFrame" src="" allow="autoplay; fullscreen" frameborder="0"></iframe>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

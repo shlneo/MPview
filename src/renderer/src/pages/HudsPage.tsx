@@ -1,17 +1,37 @@
-import { useState } from 'react'
-import { RefreshCw, Upload, ChevronDown, Copy } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { RefreshCw, Upload, ChevronDown, Copy, MonitorPlay, MonitorX } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import Button from '../components/Button'
 
 const sampleHud = {
-  name: 'JTs Hud',
-  version: 'V1.0.8',
+  id: 'match-5v5-demo',
+  name: 'MPview',
+  version: 'V1.0.0',
   verified: true,
-  author: 'twitch.tv/jtmythic'
+  author: 'twitch.tv/shlneo'
 }
 
 export default function HudsPage(): React.JSX.Element {
   const [variantsOpen, setVariantsOpen] = useState(false)
+  const [overlayOpen, setOverlayOpen] = useState(false)
+
+  useEffect(() => {
+    window.api.isHudOpen(sampleHud.id).then(setOverlayOpen)
+
+    return window.api.onHudStatusChanged((status) => {
+      if (status.hudId === sampleHud.id) setOverlayOpen(status.open)
+    })
+  }, [])
+
+  async function handleLaunch(): Promise<void> {
+    await window.api.launchHud(sampleHud.id)
+    setOverlayOpen(true)
+  }
+
+  async function handleClose(): Promise<void> {
+    await window.api.closeHud(sampleHud.id)
+    setOverlayOpen(false)
+  }
 
   return (
     <div>
@@ -34,11 +54,9 @@ export default function HudsPage(): React.JSX.Element {
 
       <div className="rounded-lg border border-panel-border bg-panel">
         <div className="flex items-center gap-4 p-4">
-          <img
-            src="https://api.dicebear.com/9.x/thumbs/svg?seed=jtshud"
-            alt=""
-            className="h-12 w-12 rounded-md object-cover"
-          />
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md border border-panel-border bg-white/5">
+            <MonitorPlay size={20} className="text-zinc-600" />
+          </div>
 
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
@@ -62,7 +80,15 @@ export default function HudsPage(): React.JSX.Element {
                 <ChevronDown size={14} className={variantsOpen ? 'rotate-180' : ''} />
               </Button>
               <Button>Panel</Button>
-              <Button variant="primary">Launch Overlay</Button>
+              <Button variant="primary" onClick={handleLaunch}>
+                Launch Overlay
+              </Button>
+              {overlayOpen && (
+                <Button onClick={handleClose}>
+                  <MonitorX size={14} />
+                  Close Overlay
+                </Button>
+              )}
             </div>
             <button className="flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-300">
               <Copy size={12} />

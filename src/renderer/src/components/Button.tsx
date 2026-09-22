@@ -11,7 +11,7 @@ export default function Button({
   ...rest
 }: ButtonProps): React.JSX.Element {
   const base =
-    'inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-sm font-medium transition-colors'
+    'inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-40'
   const variants: Record<string, string> = {
     primary: 'bg-accent-2 text-white hover:bg-accent',
     ghost: 'border border-panel-border bg-white/5 text-zinc-200 hover:bg-white/10'

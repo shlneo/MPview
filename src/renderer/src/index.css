@@ -44,3 +44,15 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #3a3a44;
 }
+
+/* Нативный выпадающий список <select> в Chromium/Electron на Windows уважает
+   background-color/color, заданные на <option> — без этого список рисуется
+   светлым по умолчанию, даже если сам <select> тёмный. */
+select {
+  color-scheme: dark;
+}
+
+select option {
+  background-color: var(--color-panel);
+  color: #e4e4e7;
+}

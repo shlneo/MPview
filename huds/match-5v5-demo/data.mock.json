@@ -1,0 +1,38 @@
+{
+  "series": { "format": "BO3", "name": "FIESTA SERIES 2", "seriesScoreA": 2, "seriesScoreB": 4 },
+  "map": "DUST2",
+  "round": { "number": 8, "of": 24, "clock": "1:21" },
+  "teams": {
+    "a": {
+      "name": "PHANTOM ACADEMY",
+      "short": "PA",
+      "color": "#3b82f6",
+      "score": 0,
+      "players": [
+        { "nick": "chessz0r", "hp": 100, "armor": true, "weapon": "AK-47", "kills": 3, "deaths": 1, "money": 2900, "alive": true },
+        { "nick": "Ayteem", "hp": 100, "armor": true, "weapon": "M4A1", "kills": 2, "deaths": 1, "money": 3200, "alive": true },
+        { "nick": "Nawko", "hp": 79, "armor": true, "weapon": "AWP", "kills": 5, "deaths": 0, "money": 1500, "alive": true },
+        { "nick": "Brahm-cf", "hp": 100, "armor": false, "weapon": "Deagle", "kills": 1, "deaths": 2, "money": 4100, "alive": true },
+        { "nick": "KaLtayr1s", "hp": 0, "armor": false, "weapon": "AK-47", "kills": 2, "deaths": 3, "money": 2000, "alive": false }
+      ]
+    },
+    "b": {
+      "name": "WW",
+      "short": "WW",
+      "color": "#f97316",
+      "score": 0,
+      "players": [
+        { "nick": "TheB", "hp": 100, "armor": true, "weapon": "M4A4", "kills": 4, "deaths": 1, "money": 3600, "alive": true },
+        { "nick": "Atlas", "hp": 60, "armor": true, "weapon": "AK-47", "kills": 1, "deaths": 3, "money": 1200, "alive": true },
+        { "nick": "Kongsi", "hp": 100, "armor": true, "weapon": "AWP", "kills": 6, "deaths": 0, "money": 2500, "alive": true },
+        { "nick": "Kelier", "hp": 0, "armor": false, "weapon": "Glock", "kills": 0, "deaths": 4, "money": 800, "alive": false },
+        { "nick": "Strobo", "hp": 100, "armor": false, "weapon": "Famas", "kills": 2, "deaths": 2, "money": 1900, "alive": true }
+      ]
+    }
+  },
+  "killfeed": [
+    { "killer": "Kongsi", "killerTeam": "b", "weapon": "AWP", "victim": "KaLtayr1s", "headshot": true },
+    { "killer": "Nawko", "killerTeam": "a", "weapon": "AK-47", "victim": "Kelier", "headshot": false },
+    { "killer": "TheB", "killerTeam": "b", "weapon": "M4A4", "victim": "Brahm-cf", "headshot": false }
+  ]
+}
