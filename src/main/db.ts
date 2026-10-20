@@ -45,10 +45,21 @@ export interface Match {
   createdAt: number
 }
 
+export interface Settings {
+  autoSwitchSides: boolean // автоматически менять стороны команд на халфтайме
+  steamPath: string // корневая папка Steam, куда ставится GSI-конфиг CS2
+}
+
+const DEFAULT_SETTINGS: Settings = {
+  autoSwitchSides: true,
+  steamPath: 'C:\\Program Files (x86)\\Steam'
+}
+
 interface Db {
   players: Player[]
   teams: Team[]
   matches: Match[]
+  settings: Settings
 }
 
 function getDbPath(): string {
@@ -58,7 +69,7 @@ function getDbPath(): string {
 function readDb(): Db {
   const path = getDbPath()
   if (!existsSync(path)) {
-    return { players: [], teams: [], matches: [] }
+    return { players: [], teams: [], matches: [], settings: { ...DEFAULT_SETTINGS } }
   }
   try {
     const raw = readFileSync(path, 'utf-8')
@@ -68,9 +79,14 @@ function readDb(): Db {
       cameraRotation: 0,
       ...p
     }))
-    return { players, teams: parsed.teams ?? [], matches: parsed.matches ?? [] }
+    return {
+      players,
+      teams: parsed.teams ?? [],
+      matches: parsed.matches ?? [],
+      settings: { ...DEFAULT_SETTINGS, ...parsed.settings }
+    }
   } catch {
-    return { players: [], teams: [], matches: [] }
+    return { players: [], teams: [], matches: [], settings: { ...DEFAULT_SETTINGS } }
   }
 }
 
@@ -173,4 +189,17 @@ export function deleteMatch(id: string): void {
   const db = readDb()
   db.matches = db.matches.filter((m) => m.id !== id)
   writeDb(db)
+}
+
+// ---------- Settings ----------
+
+export function getSettings(): Settings {
+  return readDb().settings
+}
+
+export function updateSettings(patch: Partial<Settings>): Settings {
+  const db = readDb()
+  Object.assign(db.settings, patch)
+  writeDb(db)
+  return db.settings
 }

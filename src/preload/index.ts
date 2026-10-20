@@ -46,6 +46,13 @@ interface Match {
   createdAt: number
 }
 
+interface Settings {
+  autoSwitchSides: boolean
+  steamPath: string
+}
+
+type InstallGsiResult = { ok: true; path: string } | { ok: false; error: string }
+
 const api = {
   launchHud: (hudId: string): Promise<void> => ipcRenderer.invoke('hud:launch', hudId),
   closeHud: (hudId: string): Promise<void> => ipcRenderer.invoke('hud:close', hudId),
@@ -57,6 +64,10 @@ const api = {
     return () => ipcRenderer.removeListener('hud:status-changed', listener)
   },
   pickImage: (): Promise<string | null> => ipcRenderer.invoke('dialog:pickImage'),
+  pickFolder: (defaultPath?: string): Promise<string | null> =>
+    ipcRenderer.invoke('dialog:pickFolder', defaultPath),
+  installGsiConfig: (steamPath: string): Promise<InstallGsiResult> =>
+    ipcRenderer.invoke('gsi:install', steamPath),
   setActiveCamera: (playerId: string | null): Promise<void> =>
     ipcRenderer.invoke('camera:setActive', playerId),
   players: {
@@ -83,6 +94,11 @@ const api = {
     create: (input: Omit<Match, 'id' | 'createdAt'>): Promise<Match> =>
       ipcRenderer.invoke('db:matches:create', input),
     remove: (id: string): Promise<void> => ipcRenderer.invoke('db:matches:delete', id)
+  },
+  settings: {
+    get: (): Promise<Settings> => ipcRenderer.invoke('db:settings:get'),
+    update: (patch: Partial<Settings>): Promise<Settings> =>
+      ipcRenderer.invoke('db:settings:update', patch)
   }
 }
 

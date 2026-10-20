@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Settings } from 'lucide-react'
 import { navGroups } from '../nav'
+import SettingsModal from './SettingsModal'
 
 function DiscordIcon(): React.JSX.Element {
   return (
@@ -19,6 +21,8 @@ function GithubIcon(): React.JSX.Element {
 }
 
 export default function Sidebar(): React.JSX.Element {
+  const [settingsOpen, setSettingsOpen] = useState(false)
+
   return (
     <aside className="flex h-full w-60 shrink-0 flex-col border-r border-panel-border bg-panel/60">
       <div className="flex items-center gap-2 px-5 py-5">
@@ -64,7 +68,11 @@ export default function Sidebar(): React.JSX.Element {
       </nav>
 
       <div className="flex items-center gap-3 border-t border-panel-border px-5 py-3 text-zinc-500">
-        <button className="transition-colors hover:text-zinc-200" title="Settings">
+        <button
+          className="transition-colors hover:text-zinc-200"
+          title="Settings"
+          onClick={() => setSettingsOpen(true)}
+        >
           <Settings size={16} />
         </button>
         <button className="transition-colors hover:text-zinc-200" title="Discord">
@@ -74,6 +82,8 @@ export default function Sidebar(): React.JSX.Element {
           <GithubIcon />
         </button>
       </div>
+
+      {settingsOpen && <SettingsModal onClose={() => setSettingsOpen(false)} />}
     </aside>
   )
 }

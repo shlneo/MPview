@@ -45,12 +45,21 @@ export interface Match {
   createdAt: number
 }
 
+export interface Settings {
+  autoSwitchSides: boolean
+  steamPath: string
+}
+
+export type InstallGsiResult = { ok: true; path: string } | { ok: false; error: string }
+
 interface Api {
   launchHud: (hudId: string) => Promise<void>
   closeHud: (hudId: string) => Promise<void>
   isHudOpen: (hudId: string) => Promise<boolean>
   onHudStatusChanged: (callback: (status: HudStatus) => void) => () => void
   pickImage: () => Promise<string | null>
+  pickFolder: (defaultPath?: string) => Promise<string | null>
+  installGsiConfig: (steamPath: string) => Promise<InstallGsiResult>
   setActiveCamera: (playerId: string | null) => Promise<void>
   players: {
     list: () => Promise<Player[]>
@@ -72,6 +81,10 @@ interface Api {
     list: () => Promise<Match[]>
     create: (input: Omit<Match, 'id' | 'createdAt'>) => Promise<Match>
     remove: (id: string) => Promise<void>
+  }
+  settings: {
+    get: () => Promise<Settings>
+    update: (patch: Partial<Settings>) => Promise<Settings>
   }
 }
 

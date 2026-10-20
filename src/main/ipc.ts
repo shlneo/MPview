@@ -3,6 +3,7 @@ import { readFileSync } from 'fs'
 import { extname } from 'path'
 import * as db from './db'
 import { broadcastCamera } from './realtime'
+import { installGsiConfig } from './gsi'
 
 const MIME_BY_EXT: Record<string, string> = {
   '.png': 'image/png',
@@ -25,8 +26,24 @@ async function pickImage(): Promise<string | null> {
   return `data:${mime};base64,${base64}`
 }
 
+async function pickFolder(defaultPath?: string): Promise<string | null> {
+  const result = await dialog.showOpenDialog({
+    properties: ['openDirectory'],
+    defaultPath
+  })
+  if (result.canceled || result.filePaths.length === 0) return null
+  return result.filePaths[0]
+}
+
 export function registerIpcHandlers(): void {
   ipcMain.handle('dialog:pickImage', () => pickImage())
+  ipcMain.handle('dialog:pickFolder', (_e, defaultPath?: string) => pickFolder(defaultPath))
+
+  ipcMain.handle('db:settings:get', () => db.getSettings())
+  ipcMain.handle('db:settings:update', (_e, patch: Partial<db.Settings>) =>
+    db.updateSettings(patch)
+  )
+  ipcMain.handle('gsi:install', (_e, steamPath: string) => installGsiConfig(steamPath))
 
   ipcMain.handle('db:players:list', () => db.listPlayers())
   ipcMain.handle('db:players:create', (_e, input: Omit<db.Player, 'id'>) =>
